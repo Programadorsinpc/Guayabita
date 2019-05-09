@@ -1,0 +1,113 @@
+/*
+Hecho por 
+dannyr gustavo garcia cardozo 20152020222
+sergio duvan nuñez sanchez 20161020133
+Juan David Neisa 20161020083
+ */
+
+package prueba1;
+
+public class Prueba1 {
+
+    public static void main(String[] args) {
+        jugar(jugador(), jugador(), 200, apuesta(), lanzar(), 1);
+    }
+
+    public static int jugador() {
+        return (int) ((Math.random() * 15) + 3) * 100;
+    }
+
+    public static int apuesta() {
+        return (int) ((Math.random() * 10) + 3) * 100;
+    }
+
+    public static int lanzar() {
+        return (int) ((Math.random() * 6) + 1);
+    }
+
+    public static void x(int J1, int J2, int mesa, int apuesta, int apuestaReal, int dado, int dado2, int turno) {
+        if (dado < dado2) {
+            if (turno == 1) {
+                jugar((J1 + apuesta), J2, (mesa - apuesta), apuestaReal, lanzar(), 2);
+            } else {
+                if (turno == 2) {
+                    jugar(J1, (J2 + apuesta), (mesa - apuesta), apuestaReal, lanzar(), 1);
+                } else {
+                    System.out.println("Error en el turno");
+                }
+            }
+        } else {
+            if (turno == 1) {
+                jugar((J1 - apuesta), J2, (mesa + apuesta), apuestaReal, lanzar(), 2);
+            } else {
+                if (turno == 2) {
+                    jugar(J1, (J2 - apuesta), (mesa + apuesta), apuestaReal, lanzar(), 1);
+                } else {
+                    System.out.println("error en el turno");
+                }
+
+            }
+        }
+    }
+
+    public static void jugar(int J1, int J2, int mesa, int apuesta, int dado, int turno) {
+
+        System.out.println("--------------------------------------");
+        System.out.println("MESA: " + mesa);
+        System.out.println("APUESTA: " + apuesta);
+        if (mesa > 0) {
+            if (J1 > 0 && J2 > 0) {
+                if (turno == 1) {
+                    System.out.println("JUGADOR 1: " + J1);
+                    if (dado == 1) {
+                        if (J1 > apuesta) {
+                            System.out.println("Jugador 1 ha perdido " + apuesta);
+                            jugar((J1 - apuesta), J2, (mesa + apuesta), apuesta, lanzar(), 2);
+                        } else {
+                            System.out.println("FIN DEL JUEGO");
+                        }
+                    } else {
+                        if (dado == 6) {
+                            if (apuesta < mesa) {
+                                System.out.println("Jugador 1 ha ganado " + apuesta);
+                                jugar((J1 + apuesta), J2, (mesa - apuesta), apuesta, lanzar(), 2);
+                            } else {
+                                System.out.println("FIN DEL JUEGO");
+                            }
+                        } else {
+                            x(J1, J2, mesa, apuesta(), apuesta, dado, lanzar(), (2));
+                        }
+                    }
+                } else {
+                    if (turno == 2) {
+                        System.out.println("JUGADOR 2: " + J2);
+                        if (dado == 1) {
+                            if (J2 > apuesta) {
+                                System.out.println("Jugador 2 ha perdido " + apuesta);
+                                jugar(J1, (J2 - apuesta), (mesa + apuesta), apuesta, lanzar(), 1);
+                            }
+                        } else {
+                            if (dado == 6) {
+                                if (apuesta < mesa) {
+                                    System.out.println("Jugador 2 ha ganado " + apuesta);
+                                    jugar(J1, (J2 + apuesta), (mesa - apuesta), apuesta, lanzar(), 1);
+                                } else {
+                                    System.out.println("FIN DEL JUEGO");
+                                }
+                            } else {
+                                x(J1, J2, mesa, apuesta(), apuesta, dado, lanzar(), 1);
+                            }
+                        }
+                    } else {
+                        System.out.println("Error");
+                    }
+                }
+            } else {
+                System.out.println("FIN DEL JUEGO");
+            }
+        } else {
+            System.out.println("FIN DEL JUEGO");
+        }
+
+    }
+}
